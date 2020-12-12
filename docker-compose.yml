@@ -23,6 +23,7 @@ services:
     links:
       - db
 
+
   db:
     image: postgres
     volumes:   #dbのデータをhost-sideで保持しておきたい(他コンテナと共有する時とか)
@@ -30,4 +31,6 @@ services:
     environment:
       - 'POSTGRES_USER=postgres'
       - 'POSTGRES_PASSWORD=postgres'
+
+      # localhost以外の環境で、postgresを動かす場合に必要(travis.ci)
       - 'POSTGRES_HOST_AUTH_METHOD=trust'
