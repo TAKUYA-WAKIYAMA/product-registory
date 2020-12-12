@@ -6,24 +6,26 @@ volumes:
 
 services:
   web:
-    build: .
+    build: .  #Build from DockerFile (not Docker-image)
     ports:
       - '3000:3000'
     volumes:
-      - '.:/product-register'
+      - '.:/product-register'    #Desginate the 相対パス
     environment:
       - 'DATABASE_PASSWORD=postgres'
 
-    tty: true
+    tty: true    #-t option (execute bash)
     stdin_open: true
-    depends_on:
+
+    # docker-compose特有の概念
+    depends_on: #service-containerができた後に、containerを作成する
       - db
     links:
       - db
 
   db:
     image: postgres
-    volumes:
+    volumes:   #dbのデータをhost-sideで保持しておきたい(他コンテナと共有する時とか)
       - 'db-data:/var/lib/postgres/data'
     environment:
       - 'POSTGRES_USER=postgres'
